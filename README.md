@@ -1,0 +1,1 @@
+This is a Java application that sorts files in your Windows 11 Downloads folder according to type and then arranges them in ascending order based on their size. It used the java.io and java.nio.file packages to work with files and directories.future development may include a fully functional GUI interface and option to delete files with certain file extensions.
