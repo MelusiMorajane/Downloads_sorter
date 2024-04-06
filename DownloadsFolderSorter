@@ -1,0 +1,51 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package sorter;
+
+/**
+ *
+ * @author Melusi Morajane
+ */
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
+
+public class DownloadsFolderSorter {
+    public static void main(String[] args) {
+        // Path to your Downloads folder
+        String downloadsFolderPath = "C:\\Users\\messi\\Downloads"; //replace this with your downloads file path
+
+        // Create a Path object for the Downloads folder
+        Path downloadsPath = Paths.get(downloadsFolderPath);
+
+        // Check if the Downloads folder exists
+        if (Files.exists(downloadsPath) && Files.isDirectory(downloadsPath)) {
+            try {
+                // List all files in the Downloads folder
+                Files.list(downloadsPath)
+                        // Filter out directories
+                        .filter(Files::isRegularFile)
+                        // Sort by file type and then by size
+                        .sorted(Comparator.comparing(Path::toString)
+                                .thenComparingLong(path -> {
+                                    try {
+                                        return Files.size(path);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        return 0L;
+                                    }
+                                }))
+                        // Print sorted file paths
+                        .forEach(System.out::println);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Downloads folder not found.");
+        }
+    }
+}
